@@ -8,4 +8,6 @@ changes:
     type: sql
     description: Create MART sales dashboard table
     file: 01_create_mart_table.sql
-    depends_on: 00_create_dataset
+    depends_on:
+      - changelog_path: changelogs/mart/changelogs.yaml
+        change_id: 02_create_table_ods_customer_activity

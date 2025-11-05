@@ -14,3 +14,6 @@ changes:
     type: sql
     description: Test injection
     file: 02_create_table_ods_customer_activity.sql
+    depends_on:
+      - changelog_path: changelogs/mart/changelogs.yaml
+        change_id: 01_create_mart_table

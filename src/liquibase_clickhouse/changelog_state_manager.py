@@ -2,6 +2,7 @@ from clickhouse_driver import Client
 import os
 from datetime import datetime
 from .util.id_generator import generate_unique_id_int
+import json
 
 class ChangelogStateManager:
     def __init__(self, host, user, password, database, table_name='changelog_state'):
@@ -37,11 +38,11 @@ class ChangelogStateManager:
             "change_id": change.id,
             "changelog_path": changelog_path,
             "type": change.type,
-            "file": change.file,
+            "file": change.file_path,
             "description": change.description,
             "started_at": now,
             "status": "pending",
-            "depends_on": change.depends_on
+            "depends_on": change.to_json_depends_on_string()
         })
 
     def update_status(self, change_id, changelog_path, status, error_message=None):

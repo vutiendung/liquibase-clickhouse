@@ -3,8 +3,11 @@ changes:
     type: sql
     description: Create EDW dataset
     file: 00_create_database.sql
+  
   - id: 01_customer_summary_create_table
     type: sql
     description: Create EDW customer summary table
     file: 01_customer_summary_create_table.sql
-    depends_on: 00_create_database
+    depends_on:
+      - changelog_path: changelogs/ods/changelogs.yaml
+        change_id: 02_create_table_ods_customer_activity
