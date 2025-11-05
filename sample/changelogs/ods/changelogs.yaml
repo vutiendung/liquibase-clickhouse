@@ -1,11 +1,16 @@
 changes:
 
-  - id: ods_create_dataset
+  - id: 00_create_database
     type: sql
     description: Create ODS dataset
-    file: create_database.sql
+    file: 00_create_database.sql
 
-  - id: ods_create_table
+  - id: 01_create_ods_table_customer
     type: sql
     description: Create ODS customer table
-    file: create_ods_table.sql
+    file: 01_create_ods_table_customer.sql
+
+  - id: 02_create_table_ods_customer_activity
+    type: sql
+    description: Test injection
+    file: 02_create_table_ods_customer_activity.sql

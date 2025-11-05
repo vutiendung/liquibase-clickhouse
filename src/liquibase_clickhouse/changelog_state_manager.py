@@ -1,6 +1,7 @@
 from clickhouse_driver import Client
 import os
 from datetime import datetime
+from .util.id_generator import generate_unique_id_int
 
 class ChangelogStateManager:
     def __init__(self, host, user, password, database, table_name='changelog_state'):
@@ -10,7 +11,8 @@ class ChangelogStateManager:
     def create_state_table(self):
         self.client.execute(f"""
         CREATE TABLE IF NOT EXISTS {self.table_name} (
-            id String,
+            id Int64,
+            change_id String,
             changelog_path String,
             type String,
             file String,
@@ -27,11 +29,12 @@ class ChangelogStateManager:
     def log_start(self, change, changelog_path):
         # Log as "pending"
         now = datetime.now()
+        id = generate_unique_id_int()
         self.client.execute(f"""
-            INSERT INTO {self.table_name} (id, changelog_path, type, file, description, started_at, status, depends_on)
-            VALUES (%(id)s, %(changelog_path)s, %(type)s, %(file)s, %(description)s, %(started_at)s, %(status)s, %(depends_on)s)
+            INSERT INTO {self.table_name} (id, change_id, changelog_path, type, file, description, started_at, status, depends_on)
+            VALUES ({id}, %(change_id)s, %(changelog_path)s, %(type)s, %(file)s, %(description)s, %(started_at)s, %(status)s, %(depends_on)s)
         """, {
-            "id": change.id,
+            "change_id": change.id,
             "changelog_path": changelog_path,
             "type": change.type,
             "file": change.file,
@@ -50,19 +53,19 @@ class ChangelogStateManager:
                 status = %(status)s, 
                 finished_at = %(finished_at)s, 
                 error_message = %(error_message)s
-            WHERE id = %(id)s AND changelog_path = %(changelog_path)s
+            WHERE change_id = %(change_id)s AND changelog_path = %(changelog_path)s
         """, {
             "status": status,
             "finished_at": now,
             "error_message": error_message,
-            "id": change_id,
+            "change_id": change_id,
             "changelog_path": changelog_path
         })
 
     def get_activity_by_id(self, change_id):
         rows = self.client.execute(f"""
-            SELECT * FROM {self.table_name} WHERE id = %(id)s
-        """, {"id": change_id})
+            SELECT * FROM {self.table_name} WHERE change_id = %(change_id)s
+        """, {"change_id": change_id})
         return rows
 
     def get_activity_by_changelog_path(self, changelog_path):

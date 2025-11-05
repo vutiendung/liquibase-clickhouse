@@ -1,0 +1,3 @@
+{% macro sql_comment(text) %}
+-- {{ text | replace('\n', '\n-- ') }}
+{% endmacro %}
