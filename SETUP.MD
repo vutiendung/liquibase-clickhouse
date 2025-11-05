@@ -27,7 +27,8 @@ You can install directly from source:
 ```bash
 python -m venv venv
 source venv/bin/active
-pip install -e .
+python -m pip install build
+pip install dist/liquibase_clickhouse-0.1.0-py3-none-any.whl
 ```
 
 ---
