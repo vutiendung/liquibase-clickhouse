@@ -1,0 +1,1 @@
+CREATE DATABASE {{ edw_dataset }}

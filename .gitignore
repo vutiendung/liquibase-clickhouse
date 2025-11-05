@@ -1,0 +1,104 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# Distributions and build artifacts
+dist/
+build/
+*.egg
+*.whl
+
+# Virtual environment
+venv/
+.venv/
+env/
+.env/
+# Specific to some virtual environment setups
+bin/
+include/
+lib/
+local/
+share/
+pip-log.txt
+pip-delete-this-arg-when-done.txt
+
+# Editors / IDEs
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VS Code
+.vscode/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Atom
+.atom/
+
+# Eclipse
+.project
+.pydevproject
+.settings/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Operating System files
+.DS_Store # macOS
+Thumbs.db # Windows
+ehthumbs.db # Windows
+Desktop.ini # Windows
+*.swp # Vim swap files
+*~ # Emacs backup files
+
+# Logs
+*.log
+log/
+tmp/
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# Environment variables
+.env
+.flaskenv
+*.env
+
+# Data files (if not meant to be version controlled)
+*.csv
+*.json
+*.yaml
+*.yml
+*.xml
+
+# Test and coverage files
+.coverage
+htmlcov/
+.tox/
+
+# Python specific temporary files
+*.bak
+*.py[cod]
+*.so
+
+# MyPy cache
+.mypy_cache/
+
+# Pipenv lock file (if you prefer to regenerate it)
+# Pipfile.lock
+
+# Poetry generated files
+# poetry.lock (if you prefer to regenerate it)
+
+# Docker related files (if not part of the main repo)
+.dockerignore
+Dockerfile.bak
