@@ -17,3 +17,11 @@ changes:
     depends_on:
       - changelog_path: changelogs/mart/changelogs.yaml
         change_id: 01_create_mart_table
+  
+  - id: 03_run_select
+    type: sql
+    description: Test depends_on for sucessed changes
+    file: 03_run_select.sql
+    depends_on:
+      - changelog_path: changelogs/ods/changelogs.yaml
+        change_id: 02_create_table_ods_customer_activity
