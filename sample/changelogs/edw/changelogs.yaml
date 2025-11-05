@@ -1,0 +1,10 @@
+changes:
+  - id: edw_create_database
+    type: sql
+    description: Create EDW dataset
+    file: create_database.sql
+  - id: edw_create_table
+    type: sql
+    description: Create EDW customer summary table
+    file: create_edw_table.sql
+    depends_on: ods_create_table

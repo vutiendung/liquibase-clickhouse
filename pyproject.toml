@@ -1,3 +1,44 @@
+[project]
+name = "liquibase-clickhouse"
+version = "0.1.0" # Start with 0.1.0 and increment as you develop
+description = "[Alternative liquibase for clickhouse]"
+readme = "README.md" # Path to your project's README file
+requires-python = ">=3.8" # Specify the minimum Python version required
+license = { text = "MIT License" } # Or specify a file like { file = "LICENSE" }
+authors = [
+  { name = "[Dzung Vu]", email = "[vudung94nb@gmail.com]" },
+]
+keywords = ["[python]", "[web]", "[api]", "[your-keywords]"] # Keywords for discoverability
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+# Optional: Project URLs (e.g., repository, documentation, issues)
+urls = {
+    "Homepage" = "https://github.com/vutiendung/liquibase-clickhouse/",
+    "Repository" = "https://github.com/vutiendung/liquibase-clickhouse/",
+    "Issues" = "https://github.com/vutiendung/liquibase-clickhouse//issues",
+}
+
+# Optional: Define your project's dependencies
+dependencies = [
+    # e.g., "fastapi~=0.100.0",
+    # e.g., "uvicorn[standard]~=0.23.0",
+    # e.g., "pydantic~=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "ruff", # Include ruff in dev dependencies if not globally installed
+    "black", # For code formatting
+    "isort", # For import sorting
+]
+
+# Your Ruff configuration (as provided)
 [tool.ruff]
 line-length = 88
 select = ["E", "F", "W"]

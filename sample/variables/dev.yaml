@@ -1,0 +1,3 @@
+ods_customer_table: "ods.customer"
+edw_customer_summary_table: "edw.customer_summary"
+mart_sales_dashboard_table: "mart.sales_dashboard"

@@ -1,0 +1,11 @@
+changes:
+
+  - id: ods_create_dataset
+    type: sql
+    description: Create ODS dataset
+    file: create_database.sql
+
+  - id: ods_create_table
+    type: sql
+    description: Create ODS customer table
+    file: create_ods_table.sql

@@ -1,0 +1,5 @@
+ods_dataset: "ods"
+datamart_dataset: "datamart"
+edw_dataset: "edw"
+edw_customer_summary_table: "edw.customer_summary"
+mart_sales_dashboard_table: "mart.sales_dashboard"

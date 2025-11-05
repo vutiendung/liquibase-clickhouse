@@ -1,0 +1,6 @@
+database:
+  host: localhost
+  port: 9000
+  user: liquibase
+  password: "admin@123"
+  database: liquibase

@@ -75,10 +75,6 @@ db.sqlite3
 
 # Data files (if not meant to be version controlled)
 *.csv
-*.json
-*.yaml
-*.yml
-*.xml
 
 # Test and coverage files
 .coverage

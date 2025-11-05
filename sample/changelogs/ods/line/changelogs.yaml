@@ -1,0 +1,5 @@
+changes:
+  - id: line_create_user_activity_table
+    type: sql
+    description: Create LINE user_activity table
+    file: create_user_activity_table.sql

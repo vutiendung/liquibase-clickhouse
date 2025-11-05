@@ -1,0 +1,12 @@
+changes:
+  - type: yaml
+    description: ODS changelog
+    file: changelogs/ods/changelogs.yaml
+
+  - type: yaml
+    description: EDW changelog
+    file: changelogs/edw/changelogs.yaml
+
+  - type: yaml
+    description: Mart changelog
+    file: changelogs/mart/changelogs.yaml

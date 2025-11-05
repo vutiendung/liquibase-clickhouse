@@ -1,0 +1,11 @@
+changes:
+  - id: mart_create_dataset
+    type: sql
+    description: Create MART sales dashboard table
+    file: create_dataset.sql
+  
+  - id: mart_create_table
+    type: sql
+    description: Create MART sales dashboard table
+    file: create_mart_table.sql
+    depends_on: edw_create_table
