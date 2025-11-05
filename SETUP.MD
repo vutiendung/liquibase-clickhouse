@@ -25,13 +25,9 @@ cd liquibase-clickhouse
 
 You can install directly from source:
 ```bash
-pip install .
-```
-
-Or, build and install a wheel file:
-```bash
-python setup.py bdist_wheel
-pip install dist/liquibase_clickhouse-<version>-py3-none-any.whl
+python -m venv venv
+source venv/bin/active
+pip install -e .
 ```
 
 ---
