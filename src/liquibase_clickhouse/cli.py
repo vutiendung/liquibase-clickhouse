@@ -28,7 +28,13 @@ def main():
 @main.command()
 @click.option("--env", default="dev", help="Environment name (e.g., dev, uat, prd).")
 @click.option("--change-log-file", default="master-changelogs.yaml", help="Path to the master changelog YAML file.")
-def update(env, change_log_file):
+# New optional database connection parameters
+@click.option("--db-host", default=None, help="Overrides the database host from config.")
+@click.option("--db-port", type=int, default=None, help="Overrides the database port from config.")
+@click.option("--db-name", default=None, help="Overrides the database name from config.")
+@click.option("--db-user", default=None, help="Overrides the database user from config.")
+@click.option("--db-password", default=None, help="Overrides the database password from config.")
+def update(env, change_log_file, db_host, db_port, db_name, db_user, db_password):
     """
     Applies pending database changes to the ClickHouse database.
     """
@@ -53,8 +59,21 @@ def update(env, change_log_file):
         variables = load_variables(env)
         db_config = config['database'].copy()
 
+        # Apply overrides from CLI options if provided
+        if db_host:
+            db_config['host'] = db_host
+        if db_port:
+            db_config['port'] = db_port
+        if db_name:
+            db_config['database'] = db_name
+        if db_user:
+            db_config['user'] = db_user
+        if db_password:
+            db_config['password'] = db_password
+
         manager = ChangelogStateManager(
             host=db_config['host'],
+            port=db_config.get('port', 9000),
             user=db_config['user'],
             password=db_config.get('password', ''),
             database=db_config['database'],
@@ -64,7 +83,7 @@ def update(env, change_log_file):
         click.echo(f"Changelog state table '{manager.table_name}' ensured to exist.")
 
         executor = ClickHouseExecutor(**db_config)
-        click.echo(f"Connected to ClickHouse database: {db_config['database']}@{db_config['host']}")
+        click.echo(f"Connected to ClickHouse database: {db_config['database']}@{db_config['host']}:{db_config.get('port', 9000)}")
 
         # Pass the absolute path to ChangelogParser
         changelog_parser = ChangelogParser(changelog_file_abs_path, state_manager=manager)
@@ -111,13 +130,19 @@ def update(env, change_log_file):
         click.echo(f"An unexpected error occurred during update: {e}", err=True)
         exit(1)
     finally:
-        os.chdir(original_cwd) # Always change back to original directory
+        os.chdir(original_cwd)
 
 
 @main.command()
 @click.option("--env", default="dev", help="Environment name (e.g., dev, uat, prd).")
 @click.option("--change-log-file", default="master-changelogs.yaml", help="Path to the master changelog YAML file.")
-def dry_run(env, change_log_file):
+# New optional database connection parameters
+@click.option("--db-host", default=None, help="Overrides the database host from config.")
+@click.option("--db-port", type=int, default=None, help="Overrides the database port from config.")
+@click.option("--db-name", default=None, help="Overrides the database name from config.")
+@click.option("--db-user", default=None, help="Overrides the database user from config.")
+@click.option("--db-password", default=None, help="Overrides the database password from config.")
+def dry_run(env, change_log_file, db_host, db_port, db_name, db_user, db_password):
     """
     Shows which database changes would be applied without actually executing them.
     """
@@ -137,12 +162,25 @@ def dry_run(env, change_log_file):
         variables = load_variables(env)
 
         db_config = config['database'].copy()
+        # Apply overrides from CLI options if provided
+        if db_host:
+            db_config['host'] = db_host
+        if db_port:
+            db_config['port'] = db_port
+        if db_name:
+            db_config['database'] = db_name
+        if db_user:
+            db_config['user'] = db_user
+        if db_password:
+            db_config['password'] = db_password
+
         manager = ChangelogStateManager(
             host=db_config['host'],
             user=db_config['user'],
             password=db_config.get('password', ''),
             database=db_config['database'],
-            table_name='changelog_state'
+            table_name='changelog_state',
+            port=db_config.get('port', 9000) # Ensure port is passed
         )
         manager.create_state_table()
 
@@ -181,7 +219,13 @@ def dry_run(env, change_log_file):
 @main.command()
 @click.option("--env", default="dev", help="Environment name (dev, uat, prd)")
 @click.option("--change-log-file", default="master-changelogs.yaml", help="Path to master changelog YAML")
-def init(env, change_log_file):
+# New optional database connection parameters
+@click.option("--db-host", default=None, help="Overrides the database host from config.")
+@click.option("--db-port", type=int, default=None, help="Overrides the database port from config.")
+@click.option("--db-name", default=None, help="Overrides the database name from config.")
+@click.option("--db-user", default=None, help="Overrides the database user from config.")
+@click.option("--db-password", default=None, help="Overrides the database password from config.")
+def init(env, change_log_file, db_host, db_port, db_name, db_user, db_password):
     """
     Initializes the changelog state table in the database.
     """
@@ -199,15 +243,28 @@ def init(env, change_log_file):
         config = load_config()
         db_config = config['database'].copy()
 
+        # Apply overrides from CLI options if provided
+        if db_host:
+            db_config['host'] = db_host
+        if db_port:
+            db_config['port'] = db_port
+        if db_name:
+            db_config['database'] = db_name
+        if db_user:
+            db_config['user'] = db_user
+        if db_password:
+            db_config['password'] = db_password
+
         manager = ChangelogStateManager(
             host=db_config['host'],
             user=db_config['user'],
             password=db_config.get('password', ''),
             database=db_config['database'],
+            port=db_config.get('port', 9000) # Ensure port is passed
         )
 
         manager.create_state_table()
-        click.echo(f"State table '{manager.table_name}' created or already exists in database '{db_config['database']}'.")
+        click.echo(f"State table '{manager.table_name}' created or already exists in database '{db_config['database']}' on host '{db_config['host']}:{db_config.get('port', 9000)}'.")
 
     except Exception as e:
         click.echo(f"An unexpected error occurred during initialization: {e}", err=True)

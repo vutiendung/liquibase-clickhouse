@@ -5,8 +5,8 @@ from .util.id_generator import generate_unique_id_int
 import json
 
 class ChangelogStateManager:
-    def __init__(self, host, user, password, database, table_name='changelog_state'):
-        self.client = Client(host=host, user=user, password=password, database=database)
+    def __init__(self, host, port, user, password, database, table_name='changelog_state'):
+        self.client = Client(host=host, user=user, password=password, database=database, port=port)
         self.table_name = table_name
 
     def create_state_table(self):
